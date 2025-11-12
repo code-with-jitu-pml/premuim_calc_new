@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Calculator - Agricultural Insurance</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-calculator"></i>
+                    <h1>Premium Calculator</h1>
+                </div>
+            </div>
+            <div class="header-decoration">
+                <div class="financial-decoration">
+                    <i class="fas fa-chart-line"></i>
+                    <i class="fas fa-shield-alt"></i>
+                    <i class="fas fa-calculator"></i>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Calculator Form -->
+        <main class="calculator-container">
+            <div class="form-wrapper">
+                <form id="premiumForm" class="premium-form">
+                    <div class="form-header">
+                        <h2><i class="fas fa-calculator"></i> Calculate Your Premium</h2>
+                    </div>
+
+                    <div class="form-grid">
+                        <!-- Personal and Policy Information Row -->
+                        <div class="personal-policy-row">
+                            <!-- Personal Information -->
+                            <div class="form-section personal-section">
+                                <h3><i class="fas fa-user-circle"></i> Personal Info</h3>
+                                
+                                <div class="form-group">
+                                    <label for="dob">Date of Birth <span class="required">*</span></label>
+                                    <div class="input-wrapper">
+                                        <i class="fas fa-calendar-alt"></i>
+                                        <input type="date" id="dob" name="dob" required max="" onfocus="this.max=new Date().toISOString().split('T')[0]">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Policy Information -->
+                            <div class="form-section policy-section">
+                                <h3><i class="fas fa-file-contract"></i> Policy Info</h3>
+                                
+                                <div class="policy-row">
+                                    <div class="form-group">
+                                        <label for="policyTenureYears">Policy Tenure (Years)</label>
+                                        <div class="input-wrapper">
+                                            <i class="fas fa-calendar-check"></i>
+                                            <select id="policyTenureYears" name="policyTenureYears">
+                                                <option value="">Select Policy Tenure</option>
+                                                <option value="1">1 Year</option>
+                                                <option value="2">2 Years</option>
+                                                <option value="3">3 Years</option>
+                                                <option value="4">4 Years</option>
+                                                <option value="5">5 Years</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="healthIndemnity">Health Indemnity</label>
+                                        <div class="input-wrapper">
+                                            <i class="fas fa-heart"></i>
+                                            <select id="healthIndemnity" name="healthIndemnity">
+                                                <option value="NIL">NIL</option>
+                                                <option value="1 LAC">1 LAC</option>
+                                                <option value="2 LAC">2 LAC</option>
+                                                <option value="3 LAC">3 LAC</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="coApplicantCover">Cover for Co-Applicant</label>
+                                        <div class="input-wrapper">
+                                            <i class="fas fa-user-friends"></i>
+                                            <select id="coApplicantCover" name="coApplicantCover">
+                                                <option value="false" selected>No</option>
+                                                <option value="true">Yes</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Loan Information -->
+                        <div class="form-section">
+                            <h3><i class="fas fa-university"></i> Loan Information</h3>
+                            
+                            <div class="loan-row">
+                                <div class="form-group">
+                                    <label for="loanAmount">Loan Amount <span class="required">*</span></label>
+                                    <div class="input-wrapper">
+                                        <i class="fas fa-rupee-sign"></i>
+                                        <input type="number" id="loanAmount" name="loanAmount" placeholder="Enter loan amount" required min={0} max={30000000} step="0.01">
+                                    </div>
+                                    <small>Maximum loan amount: ₹3 Crores (₹3,00,00,000)</small>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="loanTenureYears">Loan Tenure (Years)</label>
+                                    <div class="input-wrapper">
+                                        <i class="fas fa-clock"></i>
+                                        <input type="number" id="loanTenureYears" name="loanTenureYears" placeholder="Enter tenure in years" min="0" step="1">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="sumInsuredPercent">Sum Insured Percentage</label>
+                                    <div class="input-wrapper">
+                                        <i class="fas fa-percentage"></i>
+                                        <input type="number" id="sumInsuredPercent" name="sumInsuredPercent" placeholder="Enter percentage" min="1" max="100" step="0.01">
+                                    </div>
+                                    <small>Percentage of loan value to be insured (Max: 100%)</small>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="emiAmount">EMI Amount</label>
+                                    <div class="input-wrapper">
+                                        <i class="fas fa-credit-card"></i>
+                                        <input type="number" id="emiAmount" name="emiAmount" placeholder="Enter EMI amount" min="0" max="100000" step="0.01">
+                                    </div>
+                                    <small>Maximum EMI amount: ₹1,00,000</small>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="calculate-btn">
+                            <i class="fas fa-calculator"></i>
+                            Calculate Premium
+                        </button>
+                        <button type="button" class="reset-btn" onclick="resetForm()">
+                            <i class="fas fa-undo"></i>
+                            Reset Form
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Results Section -->
+            <div id="results" class="results-container">
+                <div class="results-header">
+                    <h3><i class="fas fa-chart-line"></i> Premium Calculation Results</h3>
+                </div>
+                <div class="results-content">
+                    <div class="result-card">
+                        <div class="result-item">
+                            <span class="label">Age:</span>
+                            <span class="value" id="resultAge">-</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="label">Policy Tenure:</span>
+                            <span class="value" id="resultPolicyTenure">-</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="label">Sum Insured:</span>
+                            <span class="value" id="resultSumInsured">-</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="label">EMI Amount:</span>
+                            <span class="value" id="resultEmiAmount">-</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="label">Health Indemnity:</span>
+                            <span class="value" id="resultHealthIndemnity">-</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="label">Co-Applicant Cover:</span>
+                            <span class="value" id="resultCoApplicantCover">-</span>
+                        </div>
+                    </div>
+                    
+                    <div class="premium-results">
+                        <div class="premium-card">
+                            <h4>Premium (Excluding GST)</h4>
+                            <div class="premium-amount" id="premiumExclGst">₹0.00</div>
+                        </div>
+                        <div class="premium-card highlight">
+                            <h4>Total Premium (Including GST)</h4>
+                            <div class="premium-amount" id="premiumInclGst">₹0.00</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Loading Spinner -->
+        <div id="loading" class="loading-spinner" style="display: none;">
+            <div class="spinner">
+                <i class="fas fa-calculator"></i>
+            </div>
+            <p>Calculating your premium...</p>
+        </div>
+
+        <!-- Error Message -->
+        <div id="errorMessage" class="error-message" style="display: none;">
+            <i class="fas fa-exclamation-triangle"></i>
+            <span id="errorText"></span>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
