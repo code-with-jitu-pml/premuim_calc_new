@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Calculator Comparison</title>
+    <!-- Cache-busting query params to avoid stale CSS in browser cache -->
+    <link rel="stylesheet" href="css/styles.css?v=20260121">
+    <link rel="stylesheet" href="css/comparison.css?v=20260128">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-balance-scale"></i>
+                    <h1>Premium Calculator Comparison</h1>
+                </div>
+                <p class="subtitle">Compare premiums across multiple insurance providers</p>
+            </div>
+        </header>
+
+        <!-- Members Container -->
+        <div id="membersContainer" class="members-container">
+            <!-- First Member (Default) -->
+            <div class="personal-info-section member-section active" data-member-id="member-1">
+                <div class="member-header">
+                    <div class="member-header-left">
+                        <label class="member-select-checkbox-label" for="member-1-select" style="display: none;">
+                            <input type="checkbox" class="member-select-checkbox" id="member-1-select" data-member="member-1" checked>
+                            <span class="checkbox-custom"></span>
+                        </label>
+                        <i class="fas fa-user-circle member-icon"></i>
+                        <h3 class="section-title">Personal Information: <span class="member-label">Member 1</span></h3>
+                    </div>
+                    <div class="member-header-actions">
+                        <button class="collapse-member-btn" type="button" aria-label="Collapse/Expand member">
+                            <i class="fas fa-chevron-up"></i>
+                        </button>
+                        <button class="remove-member-btn" onclick="window.premiumComparison.removeMember('member-1')" style="display: none;">
+                            <i class="fas fa-times"></i> Remove
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Common Personal Information Fields -->
+                <div class="personal-info-form common-fields">
+                    <div class="form-row">
+                        <div class="info-field">
+                            <label for="member-1-name">
+                                <i class="fas fa-user"></i> Name <span class="required">*</span>
+                            </label>
+                            <input type="text" class="member-input" data-field="name" data-member="member-1" id="member-1-name" placeholder="Enter full name" required>
+                        </div>
+                        <div class="info-field">
+                            <label for="member-1-age">
+                                <i class="fas fa-birthday-cake"></i> Age <span class="required">*</span>
+                            </label>
+                            <input type="number" class="member-input" data-field="age" data-member="member-1" id="member-1-age" placeholder="Enter age (18-75)" min="18" max="75" required>
+                        </div>
+                        <div class="info-field">
+                            <label for="member-1-gender">
+                                <i class="fas fa-venus-mars"></i> Gender <span class="required">*</span>
+                            </label>
+                            <select class="member-input" data-field="gender" data-member="member-1" id="member-1-gender" required>
+                                <option value="">Select Gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="info-field">
+                            <label for="member-1-loanAmount">
+                                <i class="fas fa-rupee-sign"></i> Loan Amount <span class="required">*</span>
+                            </label>
+                            <input type="number" class="member-input" data-field="loanAmount" data-member="member-1" id="member-1-loanAmount" placeholder="Enter loan amount" min="0" step="0.01" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="info-field">
+                            <label for="member-1-loanType">
+                                <i class="fas fa-file-invoice-dollar"></i> Type of Loan <span class="required">*</span>
+                            </label>
+                            <select class="member-input" data-field="loanType" data-member="member-1" id="member-1-loanType" required>
+                                <option value="">Select Loan Type</option>
+                                <option value="Property Loan" selected>Property Loan</option>
+                                <option value="Home Loan">Home Loan</option>
+                                <option value="Personal Loan">Personal Loan</option>
+                                <option value="Car Loan">Car Loan</option>
+                                <option value="Education Loan">Education Loan</option>
+                                <option value="Business Loan">Business Loan</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="info-field full-width" id="member-1-loanTypeOtherField" style="display: none;">
+                            <label for="member-1-loanTypeOther">
+                                <i class="fas fa-pen"></i> Specify Loan Type <span class="required">*</span>
+                            </label>
+                            <input type="text" class="member-input uppercase-input" data-field="loanTypeOther" data-member="member-1" id="member-1-loanTypeOther" placeholder="Enter loan type" autocomplete="off">
+                        </div>
+                        <div class="info-field">
+                            <label for="member-1-loanTenure">
+                                <i class="fas fa-calendar-alt"></i> Loan Tenure (Years) <span class="required">*</span>
+                            </label>
+                            <input type="number" class="member-input" data-field="loanTenure" data-member="member-1" id="member-1-loanTenure" placeholder="Enter loan tenure" min="1" max="30" required>
+                        </div>
+                        <div class="info-field">
+                            <label for="member-1-email">
+                                <i class="fas fa-envelope"></i> Email <span class="required">*</span>
+                            </label>
+                            <input type="email" class="member-input" data-field="email" data-member="member-1" id="member-1-email" placeholder="Enter email address" required>
+                        </div>
+                        <div class="info-field">
+                            <label for="member-1-mobile">
+                                <i class="fas fa-phone"></i> Mobile <span class="required">*</span>
+                            </label>
+                            <input type="tel" class="member-input" data-field="mobile" data-member="member-1" id="member-1-mobile" placeholder="Enter mobile number" pattern="[0-9]{10}" maxlength="10" required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Life Insurance Specific Fields (Hidden by default, shown when Life Insurance section is active) -->
+                <div class="life-insurance-fields" id="lifeInsuranceFields-member-1" style="display: none;">
+                    <div class="life-insurance-header">
+                        <i class="fas fa-heart"></i>
+                        <h4>Life Insurance Details</h4>
+                    </div>
+                    <div class="form-row">
+                        <div class="info-field">
+                            <label for="member-1-sumInsured">
+                                <i class="fas fa-shield-alt"></i> Sum Insured <span class="required">*</span>
+                            </label>
+                            <input type="number" class="member-input" data-field="sumInsured" data-member="member-1" id="member-1-sumInsured" placeholder="Enter sum insured" min="0" step="1000">
+                        </div>
+                        <div class="info-field">
+                            <label for="member-1-policyTenure">
+                                <i class="fas fa-calendar-check"></i> Policy Tenure <span class="required">*</span>
+                            </label>
+                            <select class="member-input" data-field="policyTenure" data-member="member-1" id="member-1-policyTenure">
+                                <option value="">Select Tenure</option>
+                                <option value="1">1 Year</option>
+                                <option value="2">2 Years</option>
+                                <option value="3">3 Years</option>
+                                <option value="4">4 Years</option>
+                                <option value="5">5 Years</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- General Insurance Specific Fields (Hidden by default, shown when General Insurance section is active) -->
+                <div class="general-insurance-fields" id="generalInsuranceFields-member-1" style="display: none;">
+                    <!-- CI (Critical Illness) Fields -->
+                    <div class="general-insurance-product-section" id="member-1-ciFields" style="display: none;">
+                        <div class="general-insurance-header">
+                            <i class="fas fa-heartbeat"></i>
+                            <h4>CI (Critical Illness) Details</h4>
+                        </div>
+                        <div class="form-row">
+                            <div class="info-field">
+                                <label for="member-1-ciSumInsured">
+                                    <i class="fas fa-shield-alt"></i> Sum Insured <span class="required">*</span>
+                                </label>
+                                <input type="number" class="member-input" data-field="generalSumInsured" data-member="member-1" data-product-type="CI" id="member-1-ciSumInsured" placeholder="Enter sum insured" min="0" step="1000">
+                            </div>
+                            <div class="info-field">
+                                <label for="member-1-ciPolicyTenure">
+                                    <i class="fas fa-calendar-check"></i> Policy Tenure <span class="required">*</span>
+                                </label>
+                                <select class="member-input" data-field="generalPolicyTenure" data-member="member-1" data-product-type="CI" id="member-1-ciPolicyTenure">
+                                    <option value="">Select Tenure</option>
+                                    <option value="1">1 Year</option>
+                                    <option value="2">2 Years</option>
+                                    <option value="3">3 Years</option>
+                                    <option value="4">4 Years</option>
+                                    <option value="5">5 Years</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PA (Personal Accident) Fields -->
+                    <div class="general-insurance-product-section" id="member-1-paFields" style="display: none;">
+                        <div class="general-insurance-header">
+                            <i class="fas fa-user-shield"></i>
+                            <h4>PA (Personal Accident) Details</h4>
+                        </div>
+                        <div class="form-row">
+                            <div class="info-field">
+                                <label for="member-1-paSumInsured">
+                                    <i class="fas fa-shield-alt"></i> Sum Insured <span class="required">*</span>
+                                </label>
+                                <input type="number" class="member-input" data-field="generalSumInsured" data-member="member-1" data-product-type="PA" id="member-1-paSumInsured" placeholder="Enter sum insured" min="0" step="1000">
+                            </div>
+                            <div class="info-field">
+                                <label for="member-1-paPolicyTenure">
+                                    <i class="fas fa-calendar-check"></i> Policy Tenure <span class="required">*</span>
+                                </label>
+                                <select class="member-input" data-field="generalPolicyTenure" data-member="member-1" data-product-type="PA" id="member-1-paPolicyTenure">
+                                    <option value="">Select Tenure</option>
+                                    <option value="1">1 Year</option>
+                                    <option value="2">2 Years</option>
+                                    <option value="3">3 Years</option>
+                                    <option value="4">4 Years</option>
+                                    <option value="5">5 Years</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- EMI Protect Fields -->
+                    <div class="general-insurance-product-section" id="member-1-emiFields" style="display: none;">
+                        <div class="general-insurance-header">
+                            <i class="fas fa-credit-card"></i>
+                            <h4>EMI Protect Details</h4>
+                        </div>
+                        <div class="form-row">
+                            <div class="info-field">
+                                <label for="member-1-emiAmount">
+                                    <i class="fas fa-credit-card"></i> EMI Amount <span class="required">*</span>
+                                </label>
+                                <input type="number" class="member-input" data-field="generalEmiAmount" data-member="member-1" data-product-type="EMI_PROTECT" id="member-1-emiAmount" placeholder="Enter EMI amount" min="0" step="0.01">
+                            </div>
+                            <div class="info-field">
+                                <label for="member-1-emiPolicyTenure">
+                                    <i class="fas fa-calendar-check"></i> Policy Tenure <span class="required">*</span>
+                                </label>
+                                <select class="member-input" data-field="generalPolicyTenure" data-member="member-1" data-product-type="EMI_PROTECT" id="member-1-emiPolicyTenure">
+                                    <option value="">Select Tenure</option>
+                                    <option value="1">1 Year</option>
+                                    <option value="2">2 Years</option>
+                                    <option value="3">3 Years</option>
+                                    <option value="4">4 Years</option>
+                                    <option value="5">5 Years</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Property Insurance Specific Fields (Hidden by default, shown when Property section is active) -->
+                <div class="property-insurance-fields" id="propertyInsuranceFields-member-1" style="display: none;">
+                    <div class="property-insurance-header">
+                        <i class="fas fa-home"></i>
+                        <h4>Property Insurance Details</h4>
+                    </div>
+                    <div class="form-row">
+                        <div class="info-field">
+                            <label for="member-1-propertySumInsured">
+                                <i class="fas fa-shield-alt"></i> Sum Insured <span class="required">*</span>
+                            </label>
+                            <input type="number" class="member-input" data-field="propertySumInsured" data-member="member-1" id="member-1-propertySumInsured" placeholder="Enter sum insured" min="0" step="1000">
+                        </div>
+                        <div class="info-field">
+                            <label for="member-1-propertyPolicyTenure">
+                                <i class="fas fa-calendar-check"></i> Policy Tenure <span class="required">*</span>
+                            </label>
+                            <select class="member-input" data-field="propertyPolicyTenure" data-member="member-1" id="member-1-propertyPolicyTenure">
+                                <option value="">Select Tenure</option>
+                                <option value="1">1 Year</option>
+                                <option value="2">2 Years</option>
+                                <option value="3">3 Years</option>
+                                <option value="4">4 Years</option>
+                                <option value="5">5 Years</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Add Member Button (Shown only when Life Insurance section is active) -->
+        <div class="add-member-container" id="addMemberContainer" style="display: none;">
+            <button class="add-member-btn" id="addMemberBtn">
+                <i class="fas fa-plus-circle"></i> Add Member
+            </button>
+        </div>
+
+        <!-- Main Layout: 3 Columns (Left, Middle, Right) -->
+        <div class="main-layout">
+            <!-- Left Section: Navigation -->
+            <aside class="sidebar-left">
+                <nav class="nav-menu">
+                    <button class="nav-item active" data-section="life">
+                        <i class="fas fa-heart"></i>
+                        <span>Life Insurance</span>
+                    </button>
+                    <button class="nav-item" data-section="general">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>General Insurance</span>
+                    </button>
+                    <!-- General Insurance Dropdown (shown when General Insurance is active) -->
+                    <div id="generalInsuranceDropdownContainer" class="general-insurance-sidebar-dropdown" style="display: none;">
+                        <label for="generalInsuranceProductSelect" class="sidebar-dropdown-label">
+                            Select Product
+                        </label>
+                        <select id="generalInsuranceProductSelect" class="general-insurance-dropdown">
+                            <option value="">-- Select Product --</option>
+                            <option value="general-ci" data-provider="godigit" data-product-type="CI" data-coverage="CI">
+                                CI (Critical Illness)
+                            </option>
+                            <option value="general-pa" data-provider="godigit" data-product-type="PA" data-coverage="PA">
+                                PA (Personal Accident)
+                            </option>
+                            <option value="general-emi-protect" data-provider="adityabirla" data-product-type="EMI_PROTECT" data-product="EMI_PROTECT">
+                                EMI Protect
+                            </option>
+                        </select>
+                    </div>
+                    <button class="nav-item" data-section="mayaa">
+                        <i class="fas fa-building"></i>
+                        <span>Mayaa</span>
+                    </button>
+                    <!-- Property section temporarily disabled -->
+                    <!-- <button class="nav-item" data-section="property">
+                        <i class="fas fa-home"></i>
+                        <span>Property</span>
+                    </button> -->
+                </nav>
+            </aside>
+
+            <!-- Middle Section: Insurance Premium -->
+            <main class="main-content">
+                <div class="insurance-premium-section">
+                    <h3 class="section-title">Insurance Premium</h3>
+                    
+                    <!-- Life Insurance Products -->
+                    <div id="lifeProducts" class="products-container active">
+                        <div class="provider-group">
+                            <h4>Bajaj Life</h4>
+                            <div class="products-list" id="bajajLifeProducts">
+                                <!-- Products will be populated dynamically -->
+                            </div>
+                        </div>
+                        <div class="provider-group">
+                            <h4>Go Digit Life</h4>
+                            <div class="products-list" id="godigitLifeProducts">
+                                <!-- Products will be populated dynamically -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- General Insurance Products -->
+                    <div id="generalProducts" class="products-container">
+                        <div class="provider-group" id="generalInsuranceProviderOptions" style="display: none;">
+                            <h4 id="generalInsuranceProductTitle">Select Provider</h4>
+                            <div class="products-list" id="generalInsuranceProducts">
+                                <!-- Provider options will be populated dynamically based on dropdown selection -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mayaa Products -->
+                    <div id="mayaaProducts" class="products-container">
+                        <div class="provider-group">
+                            <h4>Mayaa Plans</h4>
+                            <div class="products-list" id="mayaaPlansList">
+                                <!-- Products will be populated dynamically -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Property section temporarily disabled -->
+                    <!--
+                    <div id="propertyProducts" class="products-container">
+                        <div class="provider-group">
+                            <h4>Property Insurance</h4>
+                            <div class="products-list" id="propertyProductsList">
+                            </div>
+                        </div>
+                    </div>
+                    -->
+                </div>
+            </main>
+
+            <!-- Right Section: Selected Items & Total -->
+            <aside class="sidebar-right">
+                <div class="selected-items-section">
+                    <h3 class="section-title">Selected Items</h3>
+                    <div id="selectedItemsList" class="selected-items-list">
+                        <p class="empty-message">No items selected</p>
+                    </div>
+                </div>
+                <div class="total-section">
+                    <h3 class="section-title">Total Calculation</h3>
+                    <div class="total-breakdown">
+                        <div class="total-row">
+                            <span>Subtotal (Excl. GST):</span>
+                            <span id="subtotalExclGst">₹0.00</span>
+                        </div>
+                        <div class="total-row">
+                            <span>GST (18%):</span>
+                            <span id="gstAmount">₹0.00</span>
+                        </div>
+                        <div class="total-row total-final">
+                            <span>Total (Incl. GST):</span>
+                            <span id="totalInclGst">₹0.00</span>
+                        </div>
+                    </div>
+                    <div class="total-actions">
+                        <button class="btn-clear" id="clearBtn">
+                            <i class="fas fa-trash-alt"></i> Clear
+                        </button>
+                        <button class="btn-proceed" id="proceedBtn">
+                            <i class="fas fa-arrow-right"></i> Proceed
+                        </button>
+                    </div>
+                </div>
+            </aside>
+        </div>
+
+        <!-- Loading Spinner -->
+        <div id="loading" class="loading-spinner" style="display: none;">
+            <div class="spinner">
+                <i class="fas fa-calculator"></i>
+            </div>
+            <p>Calculating premiums...</p>
+        </div>
+
+        <!-- Error Message -->
+        <div id="errorMessage" class="error-message" style="display: none;">
+            <i class="fas fa-exclamation-triangle"></i>
+            <span id="errorText"></span>
+        </div>
+
+        <!-- Custom Confirmation Modal -->
+        <div id="confirmationModal" class="custom-modal" style="display: none;">
+            <div class="modal-overlay"></div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="modalTitle">Confirm Action</h3>
+                    <button class="modal-close" id="closeModalBtn">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="modalMessage">Are you sure you want to proceed?</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-modal-cancel" id="modalCancelBtn">Cancel</button>
+                    <button class="btn-modal-confirm" id="modalConfirmBtn">Confirm</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Coming Soon Modal -->
+        <div id="comingSoonModal" class="custom-modal" style="display: none;">
+            <div class="modal-overlay"></div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Coming Soon</h3>
+                    <button class="modal-close" id="closeComingSoonBtn">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="coming-soon-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <p>The policy page is coming soon. Please check back later.</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-modal-confirm" id="comingSoonOkBtn">OK</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- General Insurance Details Modal -->
+        <div id="generalInsuranceModal" class="custom-modal" style="display: none;">
+            <div class="modal-overlay"></div>
+            <div class="modal-content general-insurance-modal-content">
+                <div class="modal-header">
+                    <div class="modal-header-left">
+                        <i class="fas fa-shield-alt"></i>
+                        <h3 id="generalInsuranceModalTitle">General Insurance Details</h3>
+                    </div>
+                    <button class="modal-close" id="closeGeneralInsuranceModalBtn">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="general-insurance-form">
+                        <div class="form-row">
+                            <div class="info-field">
+                                <label for="generalInsuranceSumInsured">
+                                    <i class="fas fa-shield-alt"></i> Sum Insured <span class="required">*</span>
+                                </label>
+                                <input type="number" id="generalInsuranceSumInsured" placeholder="Enter sum insured" min="0" step="1000" required>
+                            </div>
+                            <div class="info-field">
+                                <label for="generalInsurancePolicyTenure">
+                                    <i class="fas fa-calendar-check"></i> Policy Tenure <span class="required">*</span>
+                                </label>
+                                <select id="generalInsurancePolicyTenure" required>
+                                    <option value="">Select Tenure</option>
+                                    <option value="1">1 Year</option>
+                                    <option value="2">2 Years</option>
+                                    <option value="3">3 Years</option>
+                                    <option value="4">4 Years</option>
+                                    <option value="5">5 Years</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div id="generalInsuranceEmiField" class="form-row" style="display: none;">
+                            <div class="info-field full-width">
+                                <label for="generalInsuranceEmiAmount">
+                                    <i class="fas fa-credit-card"></i> EMI Amount <span class="required">*</span>
+                                </label>
+                                <input type="number" id="generalInsuranceEmiAmount" placeholder="Enter EMI amount" min="0" step="0.01">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-modal-cancel" id="cancelGeneralInsuranceBtn">Cancel</button>
+                    <button class="btn-modal-confirm" id="calculateGeneralInsuranceBtn">
+                        <i class="fas fa-calculator"></i> Calculate Premium
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PDF Viewer Modal -->
+        <div id="pdfViewerModal" class="custom-modal pdf-viewer-modal" style="display: none;">
+            <div class="modal-overlay"></div>
+            <div class="modal-content pdf-viewer-content">
+                <div class="modal-header">
+                    <div class="modal-header-left">
+                        <i class="fas fa-file-pdf"></i>
+                        <h3>Insurance Premium Summary</h3>
+                    </div>
+                    <button class="modal-close" id="closePdfViewerBtn">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body pdf-viewer-body">
+                    <iframe id="pdfViewer" type="application/pdf" style="width: 100%; height: 100%; border: none;"></iframe>
+                </div>
+                <div class="modal-footer pdf-viewer-footer">
+                    <button class="btn-modal-back" id="pdfViewerBackBtn">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </button>
+                    <button class="btn-modal-print" id="pdfViewerDownloadBtn">
+                        <i class="fas fa-download"></i> Download PDF
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Nominee Form Modal -->
+        <div id="nomineeModal" class="custom-modal nominee-modal" style="display: none;">
+            <div class="modal-overlay"></div>
+            <div class="modal-content nominee-modal-content">
+                <div class="modal-header">
+                    <div class="modal-header-left">
+                        <i class="fas fa-user-friends"></i>
+                        <h3>Nominee Information</h3>
+                    </div>
+                </div>
+                <div class="modal-body nominee-form-body">
+                    <form id="nomineeForm" class="nominee-form">
+                        <div class="form-section-title">
+                            <i class="fas fa-user"></i> Nominee Details
+                        </div>
+                        <div class="form-row">
+                            <div class="info-field">
+                                <label for="nomineeName">
+                                    <i class="fas fa-user"></i> Nominee Name <span class="required">*</span>
+                                </label>
+                                <input type="text" id="nomineeName" name="nomineeName" placeholder="Enter nominee full name" required>
+                            </div>
+                            <div class="info-field">
+                                <label for="nomineeRelationship">
+                                    <i class="fas fa-heart"></i> Relationship <span class="required">*</span>
+                                </label>
+                                <select id="nomineeRelationship" name="nomineeRelationship" required>
+                                    <option value="">Select Relationship</option>
+                                    <option value="Spouse">Spouse</option>
+                                    <option value="Son">Son</option>
+                                    <option value="Daughter">Daughter</option>
+                                    <option value="Father">Father</option>
+                                    <option value="Mother">Mother</option>
+                                    <option value="Brother">Brother</option>
+                                    <option value="Sister">Sister</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="info-field">
+                                <label for="nomineeDob">
+                                    <i class="fas fa-calendar"></i> Date of Birth <span class="required">*</span>
+                                </label>
+                                <input type="date" id="nomineeDob" name="nomineeDob" required>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer nominee-modal-footer">
+                    <button class="btn-modal-back" id="nomineeBackBtn">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </button>
+                    <button class="btn-modal-print" id="nomineePrintBtn">
+                        <i class="fas fa-print"></i> Print PDF
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/comparison.js"></script>
+</body>
+</html>

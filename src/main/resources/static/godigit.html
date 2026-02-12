@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Go Digit - PA + CI + EMI Calculator</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/godigit.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+<div class="container">
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-calculator"></i>
+                <h1>Go Digit Calculator (PA + CI + EMI)</h1>
+            </div>
+        </div>
+        <div class="header-decoration">
+            <div class="financial-decoration">
+                <i class="fas fa-chart-line"></i>
+                <i class="fas fa-shield-alt"></i>
+                <i class="fas fa-calculator"></i>
+            </div>
+        </div>
+    </header>
+
+    <main class="calculator-container">
+        <div class="form-wrapper">
+            <form id="godigitForm" class="premium-form">
+                <div class="form-header">
+                    <h2><i class="fas fa-calculator"></i> Calculate Premium</h2>
+                    <p class="form-subtitle">Go Digit General Insurance — PA + CI + EMI (excl. GST)</p>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-section">
+                        <h3><i class="fas fa-layer-group"></i> Select Covers</h3>
+                        <div class="products-grid">
+                            <label class="product-checkbox">
+                                <input type="checkbox" name="coverages" value="PA" id="covPA" checked>
+                                <div class="product-card">
+                                    <i class="fas fa-user-shield"></i>
+                                    <span>PA</span>
+                                </div>
+                            </label>
+                            <label class="product-checkbox">
+                                <input type="checkbox" name="coverages" value="CI" id="covCI" checked>
+                                <div class="product-card">
+                                    <i class="fas fa-heartbeat"></i>
+                                    <span>CI</span>
+                                </div>
+                            </label>
+                            <label class="product-checkbox">
+                                <input type="checkbox" name="coverages" value="EMI" id="covEMI" checked>
+                                <div class="product-card">
+                                    <i class="fas fa-credit-card"></i>
+                                    <span>EMI Protection</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3><i class="fas fa-user-circle"></i> Customer</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="age">Age <span class="required">*</span></label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-birthday-cake"></i>
+                                    <input type="number" id="age" name="age" required min="18" max="60" step="1" placeholder="18 - 60">
+                                </div>
+                                <small>Age must be between 18 and 60 years</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="policyYear">Policy Year <span class="required">*</span></label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-calendar-check"></i>
+                                    <select id="policyYear" name="policyYear" required>
+                                        <option value="">Select Year</option>
+                                        <option value="1">Year 1</option>
+                                        <option value="2">Year 2</option>
+                                        <option value="3">Year 3</option>
+                                    </select>
+                                </div>
+                                <small>Choose 1, 2, or 3</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3><i class="fas fa-university"></i> Loan</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="loanAmount">Loan Amount <span class="required">*</span></label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-rupee-sign"></i>
+                                    <input type="number" id="loanAmount" name="loanAmount" required min="1" step="0.01" placeholder="Enter loan amount">
+                                </div>
+                                <small>Used for PA (max ₹5 Cr) and CI (max ₹1 Cr)</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="emiAmount">EMI Amount</label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-credit-card"></i>
+                                    <input type="number" id="emiAmount" name="emiAmount" min="0" step="0.01" placeholder="Enter EMI amount">
+                                </div>
+                                <small id="emiHelpText">Mandatory when EMI cover is selected</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="calculate-btn">
+                        <i class="fas fa-calculator"></i>
+                        Calculate Premium
+                    </button>
+                    <button type="button" class="reset-btn" onclick="resetGoDigitForm()">
+                        <i class="fas fa-undo"></i>
+                        Reset Form
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div id="results" class="results-container" style="display:none;">
+            <div class="results-header">
+                <h3><i class="fas fa-chart-line"></i> Results</h3>
+            </div>
+            <div class="results-content">
+                <div class="premium-results">
+                    <div class="premium-card" id="paCard" style="display:none;">
+                        <div class="premium-header"><i class="fas fa-user-shield"></i><h4>PA Premium</h4></div>
+                        <div class="premium-amount" id="paPremium">₹0.00</div>
+                        <div class="premium-sub" id="paPremiumInclGst">Incl. GST: ₹0.00</div>
+                    </div>
+                    <div class="premium-card" id="ciCard" style="display:none;">
+                        <div class="premium-header"><i class="fas fa-heartbeat"></i><h4>CI Premium</h4></div>
+                        <div class="premium-amount" id="ciPremium">₹0.00</div>
+                        <div class="premium-sub" id="ciPremiumInclGst">Incl. GST: ₹0.00</div>
+                    </div>
+                    <div class="premium-card" id="emiCard" style="display:none;">
+                        <div class="premium-header"><i class="fas fa-credit-card"></i><h4>EMI Premium</h4></div>
+                        <div class="premium-amount" id="emiPremium">₹0.00</div>
+                        <div class="premium-sub" id="emiPremiumInclGst">Incl. GST: ₹0.00</div>
+                    </div>
+                    <div class="premium-card highlight" id="totalCard">
+                        <div class="premium-header"><i class="fas fa-calculator"></i><h4>Total Premium</h4></div>
+                        <div class="premium-amount" id="totalPremium">₹0.00</div>
+                        <div class="premium-sub" id="totalPremiumInclGst">Incl. GST: ₹0.00</div>
+                    </div>
+                </div>
+
+                <div class="breakup-section">
+                    <h4 class="breakup-section-title">
+                        <i class="fas fa-list-alt"></i> Breakup
+                    </h4>
+                    <div id="breakup" class="breakup-container"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="loading" class="loading-spinner" style="display:none;">
+        <div class="spinner"></div>
+        <p>Calculating...</p>
+    </div>
+
+    <div id="errorMessage" class="error-message" style="display:none;">
+        <i class="fas fa-exclamation-triangle"></i>
+        <span id="errorText"></span>
+    </div>
+</div>
+
+<script src="js/godigit.js"></script>
+</body>
+</html>
+
+
