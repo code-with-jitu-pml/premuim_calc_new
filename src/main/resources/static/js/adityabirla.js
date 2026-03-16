@@ -142,19 +142,13 @@ class AdityabirlaCalculator {
 
         if (!isNaN(value)) {
             if (value < 18) {
-                e.target.value = '18';
                 this.showFieldError(e.target, 'Age must be at least 18 years. Minimum age limit is 18 years.');
             } else if (value > 100) {
-                e.target.value = '100';
                 this.showFieldError(e.target, 'Age cannot exceed 100 years. Maximum age limit is 100 years.');
-            } else if (value < 1) {
-                e.target.value = '18';
-                this.showFieldError(e.target, 'Age must be at least 18 years');
             } else {
                 this.clearFieldError(e.target);
             }
         } else if (e.target.value !== '') {
-            e.target.value = '';
             this.showFieldError(e.target, 'Please enter a valid age (18-100 years)');
         } else {
             this.clearFieldError(e.target);
