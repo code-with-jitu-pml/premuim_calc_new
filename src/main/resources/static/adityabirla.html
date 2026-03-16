@@ -10,199 +10,230 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <div class="container">
-        <!-- Header Section -->
-        <header class="header">
-            <div class="header-content">
-                <div class="logo">
-                    <i class="fas fa-calculator"></i>
-                    <h1>Aditya Birla Premium Calculator</h1>
-                </div>
+<div class="container">
+    <!-- Header Section -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-calculator"></i>
+                <h1>Aditya Birla Premium Calculator</h1>
             </div>
-            <div class="header-decoration">
-                <div class="financial-decoration">
-                    <i class="fas fa-chart-line"></i>
-                    <i class="fas fa-shield-alt"></i>
-                    <i class="fas fa-calculator"></i>
-                </div>
-            </div>
-        </header>
-
-        <!-- Main Calculator Form -->
-        <main class="calculator-container">
-            <div class="form-wrapper">
-                <form id="adityabirlaForm" class="premium-form">
-                    <div class="form-header">
-                        <h2><i class="fas fa-calculator"></i> Calculate Your Premium</h2>
-                        <p class="form-subtitle">Select products and enter your details to calculate premium</p>
-                    </div>
-
-                    <div class="form-grid">
-                        <!-- Product Selection -->
-                        <div class="form-section">
-                            <h3><i class="fas fa-box"></i> Select Products</h3>
-                            <div class="products-grid">
-                                <label class="product-checkbox">
-                                    <input type="checkbox" name="products" value="GCI" id="productGCI">
-                                    <div class="product-card">
-                                        <i class="fas fa-shield-alt"></i>
-                                        <span>GCI (Group Credit Insurance)</span>
-                                    </div>
-                                </label>
-                                <label class="product-checkbox">
-                                    <input type="checkbox" name="products" value="GPA" id="productGPA">
-                                    <div class="product-card">
-                                        <i class="fas fa-user-shield"></i>
-                                        <span>GPA (Group Personal Accident)</span>
-                                    </div>
-                                </label>
-                                <label class="product-checkbox">
-                                    <input type="checkbox" name="products" value="EMI_PROTECT" id="productEMI">
-                                    <div class="product-card">
-                                        <i class="fas fa-credit-card"></i>
-                                        <span>EMI Protect</span>
-                                    </div>
-                                </label>
-                            </div>
-                        </div>
-
-                        <!-- Personal Information -->
-                        <div class="form-section">
-                            <h3><i class="fas fa-user-circle"></i> Personal Information</h3>
-                            
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="age">Age <span class="required">*</span></label>
-                                    <div class="input-wrapper">
-                                        <i class="fas fa-birthday-cake"></i>
-                                        <input type="number" id="age" name="age" placeholder="Enter your age" required min="18" max="100" step="1">
-                                    </div>
-                                    <small>Age must be between 18 and 100 years</small>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Loan Information -->
-                        <div class="form-section">
-                            <h3><i class="fas fa-university"></i> Loan Information</h3>
-                            
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="loanAmount">Loan Amount <span class="required">*</span></label>
-                                    <div class="input-wrapper">
-                                        <i class="fas fa-rupee-sign"></i>
-                                        <input type="number" id="loanAmount" name="loanAmount" placeholder="Enter loan amount" required min="0" step="0.01">
-                                    </div>
-                                    <small>Enter the loan amount in ₹</small>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="loanTenure">Loan Tenure (Years) <span class="required">*</span></label>
-                                    <div class="input-wrapper">
-                                        <i class="fas fa-calendar-check"></i>
-                                        <select id="loanTenure" name="loanTenure" required>
-                                            <option value="">Select Loan Tenure</option>
-                                            <option value="1">1 Year</option>
-                                            <option value="2">2 Years</option>
-                                            <option value="3">3 Years</option>
-                                            <option value="4">4 Years</option>
-                                            <option value="5">5 Years</option>
-                                        </select>
-                                    </div>
-                                    <small>Select loan tenure from 1 to 5 years</small>
-                                </div>
-                            </div>
-
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="emiAmount">EMI Amount</label>
-                                    <div class="input-wrapper">
-                                        <i class="fas fa-credit-card"></i>
-                                        <input type="number" id="emiAmount" name="emiAmount" placeholder="Enter EMI amount" min="0" step="0.01">
-                                    </div>
-                                    <small id="emiHelpText">Required when EMI Protect product is selected</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-actions">
-                        <button type="submit" class="calculate-btn">
-                            <i class="fas fa-calculator"></i>
-                            Calculate Premium
-                        </button>
-                        <button type="button" class="reset-btn" onclick="resetAdityabirlaForm()">
-                            <i class="fas fa-undo"></i>
-                            Reset Form
-                        </button>
-                    </div>
-                </form>
-            </div>
-
-            <!-- Results Section -->
-            <div id="results" class="results-container" style="display: none;">
-                <div class="results-header">
-                    <h3><i class="fas fa-chart-line"></i> Premium Calculation Results</h3>
-                </div>
-                <div class="results-content">
-                    <div class="premium-results">
-                        <div class="premium-card" id="gciCard" style="display: none;">
-                            <div class="premium-header">
-                                <i class="fas fa-shield-alt"></i>
-                                <h4>GCI Premium</h4>
-                            </div>
-                            <div class="premium-amount" id="gciPremium">₹0.00</div>
-                        </div>
-                        <div class="premium-card" id="gpaCard" style="display: none;">
-                            <div class="premium-header">
-                                <i class="fas fa-user-shield"></i>
-                                <h4>GPA Premium</h4>
-                            </div>
-                            <div class="premium-amount" id="gpaPremium">₹0.00</div>
-                        </div>
-                        <div class="premium-card" id="emiCard" style="display: none;">
-                            <div class="premium-header">
-                                <i class="fas fa-credit-card"></i>
-                                <h4>EMI Protect Premium</h4>
-                            </div>
-                            <div class="premium-amount" id="emiProtectPremium">₹0.00</div>
-                        </div>
-                        <div class="premium-card highlight" id="totalCard">
-                            <div class="premium-header">
-                                <i class="fas fa-calculator"></i>
-                                <h4>Total Premium</h4>
-                            </div>
-                            <div class="premium-amount" id="totalPremium">₹0.00</div>
-                        </div>
-                    </div>
-                    
-                    <!-- Loan-wise Breakup Section -->
-                    <div class="breakup-section">
-                        <h4 class="breakup-section-title">
-                            <i class="fas fa-list-alt"></i> Loan-wise Premium Calculation Breakdown
-                        </h4>
-                        <div id="loanBreakup" class="breakup-container"></div>
-                    </div>
-                </div>
-            </div>
-        </main>
-
-        <!-- Loading Spinner -->
-        <div id="loading" class="loading-spinner" style="display: none;">
-            <div class="spinner">
+        </div>
+        <div class="header-decoration">
+            <div class="financial-decoration">
+                <i class="fas fa-chart-line"></i>
+                <i class="fas fa-shield-alt"></i>
                 <i class="fas fa-calculator"></i>
             </div>
-            <p>Calculating your premium...</p>
+        </div>
+    </header>
+
+    <!-- Main Calculator Form -->
+    <main class="calculator-container">
+        <div class="form-wrapper">
+            <form id="adityabirlaForm" class="premium-form">
+                <div class="form-header">
+                    <h2><i class="fas fa-calculator"></i> Calculate Your Premium</h2>
+                    <p class="form-subtitle">Select products and enter your details to calculate premium</p>
+                </div>
+
+                <div class="form-grid">
+                    <!-- Product Selection -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-box"></i> Select Products</h3>
+                        <div class="products-grid">
+                            <label class="product-checkbox">
+                                <input type="checkbox" name="products" value="GCI" id="productGCI">
+                                <div class="product-card">
+                                    <i class="fas fa-shield-alt"></i>
+                                    <span>GCI (Group Credit Insurance)</span>
+                                </div>
+                            </label>
+                            <label class="product-checkbox">
+                                <input type="checkbox" name="products" value="GPA" id="productGPA">
+                                <div class="product-card">
+                                    <i class="fas fa-user-shield"></i>
+                                    <span>GPA (Group Personal Accident)</span>
+                                </div>
+                            </label>
+                            <label class="product-checkbox">
+                                <input type="checkbox" name="products" value="EMI_PROTECT" id="productEMI">
+                                <div class="product-card">
+                                    <i class="fas fa-credit-card"></i>
+                                    <span>EMI Protect</span>
+                                </div>
+                            </label>
+                            <label class="product-checkbox">
+                                <input type="checkbox" name="products" value="CANCER_SECURE" id="productCANCER">
+                                <div class="product-card">
+                                    <i class="fas fa-ribbon"></i>
+                                    <span>Cancer Secure</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Personal Information -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-user-circle"></i> Personal Information</h3>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="age">Age <span class="required">*</span></label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-birthday-cake"></i>
+                                    <input type="number" id="age" name="age" placeholder="Enter your age" required min="18" max="100" step="1">
+                                </div>
+                                <small>Age must be between 18 and 100 years</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Loan Information -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-university"></i> Loan Information</h3>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="loanAmount">Loan Amount <span class="required">*</span></label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-rupee-sign"></i>
+                                    <input type="number" id="loanAmount" name="loanAmount" placeholder="Enter loan amount" required min="0" step="0.01">
+                                </div>
+                                <small>Enter the loan amount in ₹</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="loanTenure">Loan Tenure (Years) <span class="required">*</span></label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-calendar-check"></i>
+                                    <select id="loanTenure" name="loanTenure" required>
+                                        <option value="">Select Loan Tenure</option>
+                                        <option value="1">1 Year</option>
+                                        <option value="2">2 Years</option>
+                                        <option value="3">3 Years</option>
+                                        <option value="4">4 Years</option>
+                                        <option value="5">5 Years</option>
+                                    </select>
+                                </div>
+                                <small>Select loan tenure from 1 to 5 years</small>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="emiAmount">EMI Amount</label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-credit-card"></i>
+                                    <input type="number" id="emiAmount" name="emiAmount" placeholder="Enter EMI amount" min="0" step="0.01">
+                                </div>
+                                <small id="emiHelpText">Required when EMI Protect product is selected</small>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="policyTerm">Policy Term (Years)</label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <select id="policyTerm" name="policyTerm">
+                                        <option value="">Select Policy Term</option>
+                                        <option value="1">1 Year</option>
+                                        <option value="2">2 Years</option>
+                                        <option value="3">3 Years</option>
+                                        <option value="4">4 Years</option>
+                                        <option value="5">5 Years</option>
+                                    </select>
+                                </div>
+                                <small>Required when Cancer Secure is selected (1–5 years)</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="calculate-btn">
+                        <i class="fas fa-calculator"></i>
+                        Calculate Premium
+                    </button>
+                    <button type="button" class="reset-btn" onclick="resetAdityabirlaForm()">
+                        <i class="fas fa-undo"></i>
+                        Reset Form
+                    </button>
+                </div>
+            </form>
         </div>
 
-        <!-- Error Message -->
-        <div id="errorMessage" class="error-message" style="display: none;">
-            <i class="fas fa-exclamation-triangle"></i>
-            <span id="errorText"></span>
+        <!-- Results Section -->
+        <div id="results" class="results-container" style="display: none;">
+            <div class="results-header">
+                <h3><i class="fas fa-chart-line"></i> Premium Calculation Results</h3>
+            </div>
+            <div class="results-content">
+                <div class="premium-results">
+                    <div class="premium-card" id="gciCard" style="display: none;">
+                        <div class="premium-header">
+                            <i class="fas fa-shield-alt"></i>
+                            <h4>GCI Premium</h4>
+                        </div>
+                        <div class="premium-amount" id="gciPremium">₹0.00</div>
+                    </div>
+                    <div class="premium-card" id="gpaCard" style="display: none;">
+                        <div class="premium-header">
+                            <i class="fas fa-user-shield"></i>
+                            <h4>GPA Premium</h4>
+                        </div>
+                        <div class="premium-amount" id="gpaPremium">₹0.00</div>
+                    </div>
+                    <div class="premium-card" id="emiCard" style="display: none;">
+                        <div class="premium-header">
+                            <i class="fas fa-credit-card"></i>
+                            <h4>EMI Protect Premium</h4>
+                        </div>
+                        <div class="premium-amount" id="emiProtectPremium">₹0.00</div>
+                    </div>
+                    <div class="premium-card" id="cancerCard" style="display: none;">
+                        <div class="premium-header">
+                            <i class="fas fa-ribbon"></i>
+                            <h4>Cancer Secure Premium</h4>
+                        </div>
+                        <div class="premium-amount" id="cancerSecurePremium">₹0.00</div>
+                    </div>
+                    <div class="premium-card highlight" id="totalCard">
+                        <div class="premium-header">
+                            <i class="fas fa-calculator"></i>
+                            <h4>Total Premium</h4>
+                        </div>
+                        <div class="premium-amount" id="totalPremium">₹0.00</div>
+                    </div>
+                </div>
+
+                <!-- Loan-wise Breakup Section -->
+                <div class="breakup-section">
+                    <h4 class="breakup-section-title">
+                        <i class="fas fa-list-alt"></i> Loan-wise Premium Calculation Breakdown
+                    </h4>
+                    <div id="loanBreakup" class="breakup-container"></div>
+                </div>
+            </div>
         </div>
+    </main>
+
+    <!-- Loading Spinner -->
+    <div id="loading" class="loading-spinner" style="display: none;">
+        <div class="spinner">
+            <i class="fas fa-calculator"></i>
+        </div>
+        <p>Calculating your premium...</p>
     </div>
 
-    <script src="js/adityabirla.js"></script>
+    <!-- Error Message -->
+    <div id="errorMessage" class="error-message" style="display: none;">
+        <i class="fas fa-exclamation-triangle"></i>
+        <span id="errorText"></span>
+    </div>
+</div>
+
+<script src="js/adityabirla.js"></script>
 </body>
 </html>
 
