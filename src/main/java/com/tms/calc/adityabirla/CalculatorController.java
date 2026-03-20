@@ -18,4 +18,10 @@ public class CalculatorController {
     public CalculatorResponse calculate(@RequestBody CalculatorRequest request) {
         return service.calculate(request);
     }
+
+    @GetMapping("/testing")
+    public String Test (){
+
+        return "Testing new API";
+    }
 }

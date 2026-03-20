@@ -67,7 +67,9 @@ class AdityabirlaCalculator {
                     if (termLabel) termLabel.textContent = 'Policy Term (Years)';
                     this.clearFieldError(termSelect);
                 }
+                this.updatePolicyTermVisibility();
             });
+            this.updatePolicyTermVisibility();
         }
 
         // EMI Amount validation - required if EMI_PROTECT is selected
@@ -86,6 +88,21 @@ class AdityabirlaCalculator {
         loanInput.addEventListener('keypress', (e) => this.preventNegativeInput(e));
 
         // Annual Income removed from UI
+    }
+
+    updatePolicyTermVisibility() {
+        const policyTermGroup = document.getElementById('policyTermGroup');
+        const cancerSelected = document.getElementById('productCANCER') && document.getElementById('productCANCER').checked;
+        if (!policyTermGroup) return;
+        policyTermGroup.style.display = cancerSelected ? '' : 'none';
+        const termSelect = document.getElementById('policyTerm');
+        if (!cancerSelected) {
+            termSelect.removeAttribute('required');
+            termSelect.value = '';
+            this.clearFieldError(termSelect);
+            const label = policyTermGroup.querySelector('label');
+            if (label) label.textContent = 'Policy Term (Years)';
+        }
     }
 
     validateProductSelection() {
@@ -497,7 +514,10 @@ class AdityabirlaCalculator {
         }
 
         if (data.cancerSecurePremium && data.cancerSecurePremium > 0) {
-            document.getElementById('cancerSecurePremium').textContent = this.formatCurrency(data.cancerSecurePremium);
+            const el = document.getElementById('cancerSecurePremium');
+            const incl = typeof data.cancerSecurePremiumInclGst === 'number' ? data.cancerSecurePremiumInclGst : data.cancerSecurePremium;
+            const excl = typeof data.cancerSecurePremiumExclGst === 'number' ? data.cancerSecurePremiumExclGst : (incl / 1.18);
+            el.innerHTML = `Excl. GST: ${this.formatCurrency(excl)}<br>Incl. GST: ${this.formatCurrency(incl)}`;
             cancerCard.style.display = 'block';
         } else {
             cancerCard.style.display = 'none';
@@ -525,7 +545,7 @@ class AdityabirlaCalculator {
 
         // Rate maps (matching backend)
         const GCI_RATE = { 1: 3.00, 2: 5.58, 3: 8.16, 4: 10.70, 5: 13.31 };
-        const GPA_RATE = { 1: 0.32, 2: 0.59, 3: 0.86, 4: 1.13, 5: 1.40 };
+        const GPA_RATE = { 1: 32.0, 2: 59.0, 3: 86.0, 4: 113.0, 5: 140.0 };
         const EMI_RATE = { 1: 108, 2: 202, 3: 294, 4: 385, 5: 479 };
         const CANCER_RATES = {
             "18-25": { 1: 0.26432, 2: 0.550666666666667, 3: 0.852746666666667, 4: 1.14853333333333, 5: 1.46634666666667 },
@@ -600,14 +620,17 @@ class AdityabirlaCalculator {
         if (data.cancerSecurePremium && data.cancerSecurePremium > 0) {
             const sumInsured = 5000000;
             const rate = CANCER_RATES[ageBand][policyTerm];
-            const premium = (sumInsured / 1000) * rate;
+            // Treat Cancer Secure rate as INCLUSIVE of GST
+            const premiumInclGst = (sumInsured / 1000) * rate;
+            const premiumExclGst = premiumInclGst / 1.18;
             breakupContainer.appendChild(this.createBreakupCard('Cancer Secure', {
                 'Sum Insured': this.formatCurrency(sumInsured),
                 'Age Band': ageBand,
                 'Policy Term (Years)': policyTerm.toString(),
                 'Rate per ₹1000': `₹${rate.toFixed(6)}`,
                 'Calculation': `(${this.formatNumber(sumInsured)} / 1000) × ${rate.toFixed(6)}`,
-                'Premium': this.formatCurrency(premium)
+                'Premium (Incl. GST)': this.formatCurrency(premiumInclGst),
+                'Premium (Excl. GST)': this.formatCurrency(premiumExclGst)
             }));
         }
     }
@@ -709,6 +732,7 @@ class AdityabirlaCalculator {
         document.getElementById('gciCard').style.display = 'none';
         document.getElementById('gpaCard').style.display = 'none';
         document.getElementById('emiCard').style.display = 'none';
+        this.updatePolicyTermVisibility();
     }
 }
 

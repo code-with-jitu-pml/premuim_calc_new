@@ -64,6 +64,11 @@
     margin-top: 1rem;
 }
 
+/* Hide Policy Term by default; shown only when Cancer Secure is selected */
+#policyTermGroup {
+    display: none;
+}
+
 /* Premium Results Grid */
 .premium-results {
     display: grid;

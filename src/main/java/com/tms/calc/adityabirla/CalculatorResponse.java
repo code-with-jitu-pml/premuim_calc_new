@@ -5,5 +5,7 @@ public class CalculatorResponse {
     public double gpaPremium;
     public double emiProtectPremium;
     public double cancerSecurePremium;
+    public Double cancerSecurePremiumExclGst;
+    public Double cancerSecurePremiumInclGst;
     public double totalPremium;
 }

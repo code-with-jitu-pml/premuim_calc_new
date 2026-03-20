@@ -1,4 +1,4 @@
-//package com.tms.calc.adityabirla;
+  //package com.tms.calc.adityabirla;
 //
 //
 //import org.springframework.stereotype.Service;
@@ -79,6 +79,8 @@ import java.util.Map;
 @Service
 public class CalculatorService {
 
+    private static final double GST_MULTIPLIER = 1.18;
+
     private static final Map<Integer, Double> GCI_RATE = Map.of(
             1, 3.00,
             2, 5.58,
@@ -87,13 +89,12 @@ public class CalculatorService {
             5, 13.31
     );
 
-    // Update GPA_RATE to use correct values (divide by 100)
     private static final Map<Integer, Double> GPA_RATE = Map.of(
-            1, 0.32,   // 32/100
-            2, 0.59,   // 59/100
-            3, 0.86,   // 86/100
-            4, 1.13,   // 113/100
-            5, 1.40    // 140/100
+            1, 32.0,
+            2, 59.0,
+            3, 86.0,
+            4, 113.0,
+            5, 140.0
     );
 
     private static final Map<Integer, Integer> EMI_RATE = Map.of(
@@ -104,7 +105,6 @@ public class CalculatorService {
             5, 479
     );
 
-    // Cancer Secure rates based on age band and policy term
     private static final Map<String, Map<Integer, Double>> CANCER_RATES = Map.of(
             "18-25", Map.of(
                     1, 0.26432,
@@ -187,7 +187,11 @@ public class CalculatorService {
             }
 
             if (req.products.contains(ProductType.CANCER_SECURE)) {
-                res.cancerSecurePremium = calculateCancerSecure(req);
+                double cancerIncl = calculateCancerSecure(req);
+                double cancerExcl = roundToTwoDecimals(cancerIncl / GST_MULTIPLIER);
+                res.cancerSecurePremiumExclGst = cancerExcl;
+                res.cancerSecurePremiumInclGst = cancerIncl;
+                res.cancerSecurePremium = cancerIncl;
             }
         }
 
@@ -234,6 +238,8 @@ public class CalculatorService {
 
         // Sum insured fixed at 50 Lakhs as per quote
         double si = 5_000_000;
+        // Interpret Cancer Secure rate as INCLUSIVE of GST
+        // premiumInclGst = (SI / 1000) * rate
         return roundToTwoDecimals((si / 1000) * rate);
     }
 
