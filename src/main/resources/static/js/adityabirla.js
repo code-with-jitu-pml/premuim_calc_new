@@ -94,7 +94,7 @@ class AdityabirlaCalculator {
         const policyTermGroup = document.getElementById('policyTermGroup');
         const cancerSelected = document.getElementById('productCANCER') && document.getElementById('productCANCER').checked;
         if (!policyTermGroup) return;
-        policyTermGroup.style.display = cancerSelected ? '' : 'none';
+        policyTermGroup.style.display = cancerSelected ? 'block' : 'none';
         const termSelect = document.getElementById('policyTerm');
         if (!cancerSelected) {
             termSelect.removeAttribute('required');
