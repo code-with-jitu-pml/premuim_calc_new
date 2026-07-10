@@ -602,6 +602,7 @@ class AdityabirlaCalculator {
             }));
         }
 
+
         // EMI Protect Breakdown
         if (data.emiProtectPremium && data.emiProtectPremium > 0) {
             const sumInsured = Math.min(emiAmount, 500000);
