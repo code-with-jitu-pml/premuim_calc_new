@@ -145,22 +145,28 @@ class AdityabirlaCalculator {
                 else data.loanTenure = t;
                 break;
             }
-            case 'CANCER_SECURE': {
-                const age = document.getElementById('cancerAge');
-                const term = document.getElementById('cancerPolicyTerm');
-                clearError('cancerAge');
-                clearError('cancerPolicyTerm');
+           case 'CANCER_SECURE': {
+               const age = document.getElementById('cancerAge');
+               const sum = document.getElementById('cancerSumInsured');  // new
+               const term = document.getElementById('cancerPolicyTerm');
+               clearError('cancerAge');
+               clearError('cancerSumInsured');   // new
+               clearError('cancerPolicyTerm');
 
-                const a = parseInt(age.value);
-                const t = parseInt(term.value);
+               const a = parseInt(age.value);
+               const s = parseFloat(sum.value);
+               const t = parseInt(term.value);
 
-                if (isNaN(a) || a < 18 || a > 60) showError('cancerAge', 'Age must be 18–60');
-                else data.age = a;
+               if (isNaN(a) || a < 18 || a > 60) showError('cancerAge', 'Age must be 18–60');
+               else data.age = a;
 
-                if (isNaN(t) || t < 1 || t > 5) showError('cancerPolicyTerm', 'Select 1–5 years');
-                else data.policyTerm = t;
-                break;
-            }
+               if (isNaN(s) || s <= 0 || s > 5000000) showError('cancerSumInsured', 'Sum Insured must be between ₹1 and ₹50,00,000');
+               else data.loanAmount = s;        // send as loanAmount
+
+               if (isNaN(t) || t < 1 || t > 5) showError('cancerPolicyTerm', 'Select 1–5 years');
+               else data.policyTerm = t;
+               break;
+           }
             default:
                 valid = false;
         }
@@ -220,33 +226,50 @@ class AdityabirlaCalculator {
     }
 
     // ---------- Update summary panel ----------
-    updateSummary(product, response, request) {
-        // Show results container
-        this.resultsContainer.style.display = 'block';
+ updateSummary(product, response, request) {
+     // Show results container
+     this.resultsContainer.style.display = 'block';
 
-        // Update premium card
-        const cardId = this.getCardId(product);
-        const premiumEl = document.getElementById(cardId);
-        const cardContainer = document.getElementById(this.getCardContainerId(product));
-        if (premiumEl && cardContainer) {
-            let premium = 0;
-            switch (product) {
-                case 'GCI': premium = response.gciPremium || 0; break;
-                case 'GPA': premium = response.gpaPremium || 0; break;
-                case 'EMI_PROTECT': premium = response.emiProtectPremium || 0; break;
-                case 'CANCER_SECURE': premium = response.cancerSecurePremium || 0; break;
-            }
-            this.premiums[product] = premium;
-            premiumEl.textContent = this.formatCurrency(premium);
-            cardContainer.style.display = 'block';
-        }
+     // Get the card elements
+     const cardId = this.getCardId(product);
+     const premiumEl = document.getElementById(cardId);
+     const cardContainer = document.getElementById(this.getCardContainerId(product));
 
-        // Update breakdown
-        this.addBreakdown(product, response, request);
+     if (premiumEl && cardContainer) {
+         let premium = 0;
 
-        // Update total
-        this.updateTotal();
-    }
+         // ----- Special handling for Cancer Secure (show GST breakdown) -----
+         if (product === 'CANCER_SECURE') {
+             const incl = typeof response.cancerSecurePremiumInclGst === 'number'
+                 ? response.cancerSecurePremiumInclGst
+                 : response.cancerSecurePremium;
+             const excl = typeof response.cancerSecurePremiumExclGst === 'number'
+                 ? response.cancerSecurePremiumExclGst
+                 : (incl / 1.18);
+             premiumEl.innerHTML = `Excl. GST: ${this.formatCurrency(excl)}<br>Incl. GST: ${this.formatCurrency(incl)}`;
+             premium = incl;   // use the incl. GST for total
+         } else {
+             // All other products: just one number
+             switch (product) {
+                 case 'GCI': premium = response.gciPremium || 0; break;
+                 case 'GPA': premium = response.gpaPremium || 0; break;
+                 case 'EMI_PROTECT': premium = response.emiProtectPremium || 0; break;
+                 default: premium = 0;
+             }
+             premiumEl.textContent = this.formatCurrency(premium);
+         }
+
+         // Store premium for total calculation
+         this.premiums[product] = premium;
+         cardContainer.style.display = 'block';
+     }
+
+     // Add breakdown card
+     this.addBreakdown(product, response, request);
+
+     // Update total
+     this.updateTotal();
+ }
 
     getCardId(product) {
         const map = {
@@ -359,21 +382,20 @@ class AdityabirlaCalculator {
             if (age >= 51 && age <= 55) return "51-55";
             return "56-60";
         })();
-        const sumInsured = 5000000;
-        const rate = CANCER_RATES[ageBand][request.policyTerm];
-        const premiumInclGst = (sumInsured / 1000) * rate;
-        const premiumExclGst = premiumInclGst / 1.18;
-        return {
-            'Sum Insured': this.formatCurrency(sumInsured),
-            'Age Band': ageBand,
-            'Policy Term (Years)': request.policyTerm.toString(),
-            'Rate per ₹1000': `₹${rate.toFixed(6)}`,
-            'Calculation': `(${this.formatNumber(sumInsured)} / 1000) × ${rate.toFixed(6)}`,
-            'Premium (Incl. GST)': this.formatCurrency(premiumInclGst),
-            'Premium (Excl. GST)': this.formatCurrency(premiumExclGst)
-        };
-    }
-
+        const sumInsured = Math.min(request.loanAmount, 5000000);
+            const rate = CANCER_RATES[ageBand][request.policyTerm];
+            const premiumInclGst = (sumInsured / 1000) * rate;
+            const premiumExclGst = premiumInclGst / 1.18;
+            return {
+                'Sum Insured': this.formatCurrency(sumInsured),
+                'Age Band': ageBand,
+                'Policy Term (Years)': request.policyTerm.toString(),
+                'Rate per ₹1000': `₹${rate.toFixed(6)}`,
+                'Calculation': `(${this.formatNumber(sumInsured)} / 1000) × ${rate.toFixed(6)}`,
+                'Premium (Incl. GST)': this.formatCurrency(premiumInclGst),
+                'Premium (Excl. GST)': this.formatCurrency(premiumExclGst)
+            };
+        }
     // ---------- Create a breakup card element ----------
     createBreakupCard(productName, details) {
         const card = document.createElement('div');
@@ -428,23 +450,32 @@ class AdityabirlaCalculator {
             maximumFractionDigits: 2
         })}`;
     }
+showFieldError(input, msg) {
+    input.classList.add('error');
+    const formGroup = input.closest('.form-group');
+    if (!formGroup) return;
 
-    showFieldError(input, msg) {
-        input.classList.add('error');
-        let err = input.parentNode.querySelector('.field-error');
-        if (!err) {
-            err = document.createElement('div');
-            err.className = 'field-error';
-            input.parentNode.appendChild(err);
-        }
-        err.textContent = msg;
-    }
+    // Remove any existing error
+    const existing = formGroup.querySelector('.field-error');
+    if (existing) existing.remove();
 
-    clearFieldError(input) {
-        input.classList.remove('error');
-        const err = input.parentNode.querySelector('.field-error');
+    // Create error element
+    const err = document.createElement('div');
+    err.className = 'field-error';
+    err.textContent = msg;
+
+    // Insert after the last child (usually the <small> hint)
+    formGroup.appendChild(err);
+}
+
+clearFieldError(input) {
+    input.classList.remove('error');
+    const formGroup = input.closest('.form-group');
+    if (formGroup) {
+        const err = formGroup.querySelector('.field-error');
         if (err) err.remove();
     }
+}
 
     showLoading(show) {
         this.loadingEl.style.display = show ? 'block' : 'none';

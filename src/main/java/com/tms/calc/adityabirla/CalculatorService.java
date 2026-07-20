@@ -231,15 +231,18 @@ public class CalculatorService {
         // Get age band and rate
         String ageBand = getAgeBand(req.age);
         Double rate = CANCER_RATES.get(ageBand).get(term);
-
         if (rate == null) {
             throw new IllegalArgumentException("Invalid age band or policy term combination");
         }
 
-        // Sum insured fixed at 50 Lakhs as per quote
-        double si = 5_000_000;
+        // Use the sum insured from request (if provided and > 0), otherwise default to 50L
+        double si = req.loanAmount > 0 ? req.loanAmount : 5_000_000;
+        si = Math.min(si, 5_000_000);      // cap at 50L
+        if (si <= 0) {
+            throw new IllegalArgumentException("Sum Insured must be greater than zero");
+        }
+
         // Interpret Cancer Secure rate as INCLUSIVE of GST
-        // premiumInclGst = (SI / 1000) * rate
         return roundToTwoDecimals((si / 1000) * rate);
     }
 
